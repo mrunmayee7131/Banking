@@ -21,6 +21,7 @@ import { Loader2 } from 'lucide-react';
 import { AuthformSchema } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { signUp, signIn, getLoggedInUser} from '@/lib/actions/user.actions';
+import PlaidLink from './PlaidLink';
 
 
 const AuthForm = ({type}:{type:string}) => {
@@ -37,12 +38,12 @@ const AuthForm = ({type}:{type:string}) => {
     defaultValues: {
       email:"",
       password:"",
-      firstname:"",
-      lastname:"",
-      address:"",
+      firstName:"",
+      lastName:"",
+      address1:"",
       state:"",
-      postalcode:"",
-      dateofbirth:"",
+      postalCode:"",
+      dateOfBirth:"",
       ssn:"",
       city:"",
     },
@@ -53,10 +54,26 @@ const AuthForm = ({type}:{type:string}) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setloading(true);
+   
     try{
+     
       //sign up with Appwrite and create a plain link token
       if(type === 'sign-up'){
-        const newUser = await signUp(data);
+        const userData = {
+          firstName:data.firstName!,
+          lastName:data.lastName!,
+          address1:data.address1!,
+          city:data.city!,
+          state:data.state!,
+          postalCode:data.postalCode!,
+          dateOfBirth:data.dateOfBirth!,
+          ssn:data.ssn!,
+          email:data.email,
+          password:data.password
+    
+        }
+        console.log(userData);
+        const newUser = await signUp(userData);
 
         setuser(newUser);
       }
@@ -96,25 +113,28 @@ const AuthForm = ({type}:{type:string}) => {
                   <p className='text-16 font-normal text-gray-600'>{user?'Link your accout to get started':'Please enter your details'}</p>
         </div>
       </header>
-      {user?(<div className="flex flex-col gap-4">
-          {/* Plaidlink */}
-      </div>):
+      {user?
+      (<div className="flex flex-col gap-4"> 
+          <PlaidLink user={user} variant='primary'/>
+       </div>
+      ): (
+        <>
        <Form {...form}>
        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {type==='sign-up' && (
             <>
             <div className='flex gap-4'>
-              <CustomFormfield control={form.control} name="firstname" placeholder="Enter your FirstName" label="FirstName" Type="text"/>
-              <CustomFormfield control={form.control} name="lastname" placeholder="Enter your LastName" label="LastName" Type="text"/>
+              <CustomFormfield control={form.control} name="firstName" placeholder="Enter your FirstName" label="FirstName" Type="text"/>
+              <CustomFormfield control={form.control} name="lastName" placeholder="Enter your LastName" label="LastName" Type="text"/>
             </div>
-              <CustomFormfield control={form.control} name="address" placeholder="Enter your specific address" label="Address" Type="text"/>
+              <CustomFormfield control={form.control} name="address1" placeholder="Enter your specific address" label="Address" Type="text"/>
               <CustomFormfield control={form.control} name="city" placeholder="Enter your city" label="City" Type="text"/>
             <div className='flex gap-4'>
               <CustomFormfield control={form.control} name="state" placeholder="eg: Maharashtra" label="State" Type="text"/>
-              <CustomFormfield control={form.control} name="postalcode" placeholder="eg: 413003" label="Postal Code" Type="text"/>
+              <CustomFormfield control={form.control} name="postalCode" placeholder="eg: 413003" label="Postal Code" Type="text"/>
             </div>
             <div className='flex gap-4'>
-              <CustomFormfield control={form.control} name="dateofbirth" placeholder="yyyy-mm-dd" label="Date Of Birth" Type="text"/>
+              <CustomFormfield control={form.control} name="dateOfBirth" placeholder="yyyy-mm-dd" label="Date Of Birth" Type="text"/>
               <CustomFormfield control={form.control} name="ssn" placeholder="eg: 1234" label="SSN" Type="text"/>
             </div>
             </>
@@ -130,7 +150,9 @@ const AuthForm = ({type}:{type:string}) => {
          </footer>
         
        </form>
-     </Form>}
+     </Form>
+     </>
+      )}
     </section>
   )
 }
