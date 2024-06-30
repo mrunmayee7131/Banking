@@ -13,6 +13,7 @@ export default async function RootLayout({
 }>) {
  
   const loggedIn = await getLoggedInUser();
+  
   if(!loggedIn) redirect('/Sign-up');
   return (
    <main className="flex h-screen w-full font-inter">

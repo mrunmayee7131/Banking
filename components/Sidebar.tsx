@@ -6,8 +6,10 @@ import { sidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
 import Footer from './Footer';
+import PlaidLink from './PlaidLink';
 const Sidebar = ({user}:SiderbarProps) => {
   const pathname = usePathname();
+  console.log(user);
   return (
     <section className='sidebar'>
      <nav className='flex flex-col gap-4'>
@@ -38,8 +40,8 @@ const Sidebar = ({user}:SiderbarProps) => {
                 </Link>
             )
         })}
-        USER
-     </nav>
+        <PlaidLink user={user} />
+     </nav> 
      <Footer user={user} type="mobile"/>
     </section>
 
