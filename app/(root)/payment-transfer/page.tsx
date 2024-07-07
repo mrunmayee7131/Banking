@@ -6,9 +6,7 @@ import React from 'react'
 
 const Transfer = async () => {
   const loggedIn = await getLoggedInUser();
-  if (!loggedIn || !loggedIn.$id) {
-    throw new Error('User is not logged in or $id is missing');
-  }
+  if (loggedIn){ 
   const accounts = await getAccounts({ 
     userId: loggedIn.$id 
   })
@@ -30,6 +28,12 @@ const Transfer = async () => {
       </section>
     </section>
   )
+}else{
+  return (
+    <>
+    </>
+  )
+}
 }
 
 export default Transfer

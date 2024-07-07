@@ -6,9 +6,7 @@ import React from 'react'
 
   const MyBanks = async () => {
     const loggedIn = await getLoggedInUser();
-    if (!loggedIn || !loggedIn.$id) {
-      throw new Error('User is not logged in or $id is missing');
-    }
+     if(loggedIn){
     const accounts = await getAccounts({ 
       userId: loggedIn.$id 
     })
@@ -38,6 +36,12 @@ import React from 'react'
         </div>
       </section>
     )
+  }else{
+    return (
+      <>
+      </>
+    )
+  }
   }
 
 export default MyBanks
