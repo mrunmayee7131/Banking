@@ -27,7 +27,7 @@ export const getUserInfo = async({userId}:getUserInfoProps)=>{
     return parseStringify(user.documents[0]);
   } catch (error) {
     console.log(error)
-    throw error;
+   
   }
 }
 
@@ -163,7 +163,7 @@ export async function getLoggedInUser() {
        return parseStringify({linkToken:response.data.link_token});
      }catch(error){
       console.log('An error occurred while creating link token:', error);
-      throw error;
+      // throw error;
      }
   }
   export const exchangePublicToken = async({publicToken,user}:exchangePublicTokenProps)=>{
@@ -214,7 +214,7 @@ export async function getLoggedInUser() {
 
           if(!fundingSourceUrl) {
             console.log("meerror");
-            throw Error;
+            // throw Error;
           }
           console.log('Funding source added successfully.');
 
@@ -241,7 +241,7 @@ export async function getLoggedInUser() {
     }
     catch(error){
       console.log('An error occurred while creating token:', error);
-      throw error;
+      // throw error;
     }
   }
 
